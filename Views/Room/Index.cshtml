@@ -1,0 +1,71 @@
+﻿@model IEnumerable<HotelManagement.Models.Room>
+@{
+    ViewBag.Title = "Rooms";
+}
+
+<h2>Rooms</h2>
+
+<!-- Filter by Hotel -->
+<form method="get" action="@Url.Action("FilterByHotel", "Room")" class="mb-4">
+    <div class="form-group">
+        <label for="hotelFilter">Filter by Hotel:</label>
+        <select id="hotelFilter" name="hotelId" class="form-control">
+            <option value="">All Hotels</option>
+            @foreach (var hotel in ViewBag.Hotels as IEnumerable<SelectListItem>)
+            {
+                <option value="@hotel.Value" @(hotel.Selected ? "selected" : "")>
+                    @hotel.Text
+                </option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<!-- Search by Room Type -->
+<form method="get" action="@Url.Action("Search", "Room")" class="mb-4">
+    <div class="form-group">
+        <label for="roomType">Search by Room Type:</label>
+        <input type="text" id="roomType" name="roomType" class="form-control" placeholder="Enter room type (e.g., Suite)" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<!-- Table of Rooms -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Room Type</th>
+            <th>Price</th>
+            <th>Availability</th>
+            <th>Hotel</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var room in Model)
+        {
+            <tr>
+                <td>@room.RoomType</td>
+                <td>@room.Price.ToString("C")</td>
+                <td>@(room.IsAvailable ? "Available" : "Booked")</td>
+                <td>@room.Hotel?.Name</td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = room.RoomId }, new { @class = "btn btn-info btn-sm" }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = room.RoomId }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = room.RoomId }, new { @class = "btn btn-danger btn-sm" }) |
+                    @Html.ActionLink(room.IsAvailable ? "Mark as Booked" : "Mark as Available",
+                                     "ToggleAvailability",
+                                     new { id = room.RoomId },
+                                     new { @class = "btn btn-secondary btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Bulk Update Prices -->
+<a href="@Url.Action("BulkUpdate", "Room")" class="btn btn-warning">Bulk Update Prices</a>
+
+<!-- Add New Room -->
+<a href="@Url.Action("Create", "Room")" class="btn btn-primary float-right">Add New Room</a>

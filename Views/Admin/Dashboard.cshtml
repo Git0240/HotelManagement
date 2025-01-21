@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<h2 class="text-center">Admin Dashboard</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>Total Hotels</h4>
+                <p class="display-6">@ViewBag.TotalHotels</p>
+                <a href="/Hotel" class="btn btn-primary">Manage Hotels</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>Total Rooms</h4>
+                <p class="display-6">@ViewBag.TotalRooms</p>
+                <a href="/Room" class="btn btn-primary">Manage Rooms</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>Total Bookings</h4>
+                <p class="display-6">@ViewBag.TotalBookings</p>
+                <a href="/Booking" class="btn btn-primary">Manage Bookings</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <!-- Total Revenue -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>Total Revenue</h4>
+                <p class="display-6">$@ViewBag.TotalRevenue</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Occupancy Rate -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>Occupancy Rate</h4>
+                <p class="display-6">@ViewBag.OccupancyRate.ToString("F2")%</p>
+            </div>
+        </div>
+    </div>
+</div>
+<h3 class="text-center mt-5">Room Occupancy</h3>
+<canvas id="occupancyChart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('occupancyChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Booked Rooms', 'Available Rooms'],
+            datasets: [{
+                label: 'Room Occupancy',
+                data: [@ViewBag.BookedRooms, @ViewBag.TotalRooms - @ViewBag.BookedRooms],
+                backgroundColor: ['#007bff', '#28a745']
+            }]
+        }
+    });
+</script>

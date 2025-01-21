@@ -1,0 +1,29 @@
+﻿@model IEnumerable<HotelManagement.Models.Room>
+
+<h2>Bulk Update Room Prices</h2>
+
+<form method="post" action="@Url.Action("BulkUpdatePrices", "Room")">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Room Type</th>
+                <th>Price</th>
+                <th>Update Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.RoomType</td>
+                    <td>@room.Price</td>
+                    <td>
+                        <input type="hidden" name="RoomIds" value="@room.RoomId" />
+                        <input type="number" name="NewPrices" class="form-control" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Update Prices</button>
+</form>

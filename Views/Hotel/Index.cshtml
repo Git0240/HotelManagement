@@ -1,0 +1,33 @@
+﻿@model IEnumerable<HotelManagement.Models.Hotel>
+@{
+    ViewBag.Title = "Hotels";
+}
+
+<h2 class="text-center">Hotels</h2>
+<a href="@Url.Action("Create")" class="btn btn-primary mb-3">Add New Hotel</a>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hotel in Model)
+        {
+            <tr>
+                <td>@hotel.Name</td>
+                <td>@hotel.Location</td>
+                <td>@hotel.Description</td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = hotel.HotelId }, new { @class = "btn btn-info btn-sm" }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = hotel.HotelId }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = hotel.HotelId }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

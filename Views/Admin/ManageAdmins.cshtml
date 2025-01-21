@@ -1,0 +1,30 @@
+﻿@model IEnumerable<HotelManagement.Models.Admin>
+@{
+    ViewBag.Title = "Manage Admins";
+}
+
+<h2 class="text-center">Manage Admins</h2>
+<a href="@Url.Action("CreateAdmin", "Admin")" class="btn btn-primary mb-3">Add New Admin</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var admin in Model)
+        {
+            <tr>
+                <td>@admin.Username</td>
+                <td>@admin.Role</td>
+                <td>
+                    @Html.ActionLink("Edit", "EditAdmin", new { id = admin.AdminId }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Delete", "DeleteAdmin", new { id = admin.AdminId }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
